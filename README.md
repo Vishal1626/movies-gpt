@@ -7,15 +7,16 @@
 
 - Login/sign up
   - SIgn in/ Sign up form
-    -redirect to browser page
+  - redirect to browser page
+- Browser (After authentications)
 
--Browser (After authentications)
--Header
--Main Movie
--Trailer In background
--Tithe & Descriptions
--Moview SUggestions - Movie List \* N
+  - Header
+  - Main Movie
+  - Trailer In background
+  - Tithe & Descriptions
+  - Moview SUggestions
+    - Movie List \* N
 
--NetflixGPT
--Search Bar
--Moview Suggestions
+- NetflixGPT
+  - Search Bar
+  - Moview Suggestions
