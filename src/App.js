@@ -1,7 +1,12 @@
 import "./index.css";
+import Body from "./components/Body";
 
 const App = () => {
-  return <div className="font-bold text-2xl bg-green-700">Hello Netflix</div>;
+  return (
+    <>
+      <Body />
+    </>
+  );
 };
 
 export default App;
