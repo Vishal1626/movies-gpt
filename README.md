@@ -3,6 +3,7 @@
 - Create react app
 - configure tailwindcss
 - Header
+- Routing of App
 - Login Form
 - Sign up form
 
