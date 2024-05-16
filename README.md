@@ -6,6 +6,9 @@
 - Routing of App
 - Login Form
 - Sign up form
+- form validation
+- setup firebase
+- setup signin and signup firebase logic
 
 # Features
 
