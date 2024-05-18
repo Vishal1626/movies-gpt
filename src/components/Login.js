@@ -1,61 +1,50 @@
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import Header from "./Header";
 import {
   validateEmail,
   validateName,
   validatePassword,
-  validatePhoneNo,
 } from "../utils/validation";
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
+  updateProfile,
 } from "firebase/auth";
 import { auth } from "../utils/firebase";
+import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { addUser } from "../utils/userSlice";
 
 const Login = () => {
   const [isSignIn, setIsSignIn] = useState(true);
   const [emailErrorMsg, setEmailErrorMsg] = useState(null);
   const [nameErrorMsg, setNameErrorMsg] = useState(null);
-  const [phoneNoErrorMsg, setPhoneNoErrorMsg] = useState(null);
   const [passwordErrorMsg, setPasswordErrorMsg] = useState(null);
+  const [signInErrorMsg, setSignInErrorMsg] = useState(null);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const name = useRef(null);
-  const phoneno = useRef(null);
   const email = useRef(null);
   const password = useRef(null);
 
   const handleFormSubmit = () => {
-    // !isSignIn &&
-    //   setNameErrorMsg(
-    //     name.current.value === ""
-    //       ? "Please Enter Name"
-    //       : validateName(name.current.value)
-    //   );
-    // if (nameErrorMsg) return;
+    const signInButton = document.getElementById("signInButton");
+    signInButton.innerHTML = isSignIn ? "Signing In..." : "Signing Up...";
+    signInButton.disabled = true;
+    if (!isSignIn) {
+      const nameValidationRes = validateName(name.current.value);
+      setNameErrorMsg(nameValidationRes);
+      if (nameValidationRes) return;
 
-    // !isSignIn &&
-    //   setPhoneNoErrorMsg(
-    //     phoneno.current.value === ""
-    //       ? "Please Enter Phone Number"
-    //       : validatePhoneNo(phoneno.current.value)
-    //   );
-    // if (phoneNoErrorMsg) return;
+      const emailValidationRes = validateEmail(email.current.value);
+      setEmailErrorMsg(emailValidationRes);
+      if (emailValidationRes) return;
 
-    const nameValidationRes = validateName(name.current.value);
-    setNameErrorMsg(nameValidationRes);
-    if (nameValidationRes) return;
-
-    const phoneNoValidationRes = validatePhoneNo(phoneno.current.value);
-    setPhoneNoErrorMsg(phoneNoValidationRes);
-    if (phoneNoValidationRes) return;
-
-    const emailValidationRes = validateEmail(email.current.value);
-    setEmailErrorMsg(emailValidationRes);
-    if (emailValidationRes) return;
-
-    const passValidationRes = validatePassword(password.current.value);
-    setPasswordErrorMsg(passValidationRes);
-    if (passValidationRes) return;
+      const passValidationRes = validatePassword(password.current.value);
+      setPasswordErrorMsg(passValidationRes);
+      if (passValidationRes) return;
+    }
 
     if (!isSignIn) {
       //sign UP new the user
@@ -65,14 +54,31 @@ const Login = () => {
         password.current.value
       )
         .then((userCredential) => {
-          // Signed up
           const user = userCredential.user;
-          // ...
+          updateProfile(user, {
+            displayName: name.current.value,
+          })
+            .then(() => {
+              const { email, displayName, uid } = auth.currentUser;
+              dispatch(
+                addUser({ userId: uid, Email: email, Name: displayName })
+              );
+              navigate("./browse");
+            })
+            .catch((error) => {
+              const errorCode = error.code;
+              const errorMessage = error.message;
+              setSignInErrorMsg(errorCode + "-" + errorMessage);
+              signInButton.innerHTML = isSignIn ? "Sign In" : "Signi Up";
+              signInButton.disabled = false;
+            });
         })
         .catch((error) => {
           const errorCode = error.code;
           const errorMessage = error.message;
-          // ..
+          setSignInErrorMsg(errorCode + "-" + errorMessage);
+          signInButton.innerHTML = isSignIn ? "Sign In" : "Signi Up";
+          signInButton.disabled = false;
         });
     } else {
       //Sign in existing user
@@ -83,13 +89,15 @@ const Login = () => {
         password.current.value
       )
         .then((userCredential) => {
-          // Signed in
-          const user = userCredential.user;
+          navigate("./browse");
           // ...
         })
         .catch((error) => {
           const errorCode = error.code;
           const errorMessage = error.message;
+          setSignInErrorMsg(errorCode + "-" + errorMessage);
+          signInButton.innerHTML = isSignIn ? "Sign In" : "Signi Up";
+          signInButton.disabled = false;
         });
     }
   };
@@ -99,7 +107,6 @@ const Login = () => {
     setEmailErrorMsg(null);
     setNameErrorMsg(null);
     setPasswordErrorMsg(null);
-    setPhoneNoErrorMsg(null);
   };
   return (
     <div>
@@ -128,16 +135,6 @@ const Login = () => {
         )}
         <p className="text-red-500 font-normal">{nameErrorMsg}</p>
 
-        {!isSignIn && (
-          <input
-            ref={phoneno}
-            type="tel"
-            placeholder="Enter Phone Number"
-            className="p-2 mt-4 w-full bg-gray-800 rounded-md"
-          ></input>
-        )}
-        <p className="text-red-500 font-normal">{phoneNoErrorMsg}</p>
-
         <input
           ref={email}
           type="email"
@@ -145,7 +142,6 @@ const Login = () => {
           className="p-2 mt-4 w-full  bg-gray-800 rounded-md"
         ></input>
         <p className="text-red-500 font-normal">{emailErrorMsg}</p>
-
         <input
           ref={password}
           type="password"
@@ -153,12 +149,15 @@ const Login = () => {
           className="p-2 mt-4 w-full  bg-gray-800 rounded-md"
         ></input>
         <p className="text-red-500 font-normal">{passwordErrorMsg}</p>
+        <p className="text-red-500 mt-4 font-normal"> {signInErrorMsg}</p>
         <button
-          className="p-2 my-4 w-full  bg-red-700 rounded-lg border border-red-950"
+          id="signInButton"
+          className=" p-2 mb-4 w-full  text-white bg-red-700 hover:bg-red-900  rounded-lg "
           onClick={handleFormSubmit}
         >
           {isSignIn ? "Sign In" : "Sign Up"}
         </button>
+
         <p className="cursor-pointer py-2" onClick={toggleignUp}>
           {isSignIn
             ? "New to Netflix? Sign up now."

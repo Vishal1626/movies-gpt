@@ -9,6 +9,8 @@
 - form validation
 - setup firebase
 - setup signin and signup firebase logic
+- setup redux store
+- createed slice for storing userInfo
 
 # Features
 

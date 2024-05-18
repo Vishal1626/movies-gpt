@@ -32,15 +32,3 @@ export const validateName = (name) => {
     return !result ? "Please Enter Valid Name" : null;
   }
 };
-
-export const validatePhoneNo = (phoneno) => {
-  if (phoneno === "") {
-    return "Please Enter Phone Number";
-  } else {
-    const result = /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/.test(
-      phoneno
-    );
-
-    return !result ? "Please Enter Valid Phone No" : null;
-  }
-};
