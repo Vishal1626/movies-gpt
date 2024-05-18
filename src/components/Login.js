@@ -11,7 +11,6 @@ import {
   updateProfile,
 } from "firebase/auth";
 import { auth } from "../utils/firebase";
-import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { addUser } from "../utils/userSlice";
 
@@ -21,7 +20,6 @@ const Login = () => {
   const [nameErrorMsg, setNameErrorMsg] = useState(null);
   const [passwordErrorMsg, setPasswordErrorMsg] = useState(null);
   const [signInErrorMsg, setSignInErrorMsg] = useState(null);
-  const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const name = useRef(null);
@@ -63,7 +61,6 @@ const Login = () => {
               dispatch(
                 addUser({ userId: uid, Email: email, Name: displayName })
               );
-              navigate("./browse");
             })
             .catch((error) => {
               const errorCode = error.code;
@@ -89,7 +86,6 @@ const Login = () => {
         password.current.value
       )
         .then((userCredential) => {
-          navigate("./browse");
           // ...
         })
         .catch((error) => {
@@ -113,7 +109,7 @@ const Login = () => {
       <Header />
       <div className="absolute">
         <img
-          className=""
+          className="w-screen h-screen"
           src="https://assets.nflxext.com/ffe/siteui/vlv3/ff5587c5-1052-47cf-974b-a97e3b4f0656/065df910-dec3-46ae-afa8-7ad2b52dce40/IN-en-20240506-popsignuptwoweeks-perspective_alpha_website_large.jpg"
           alt="loginbg"
         />
