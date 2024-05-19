@@ -15,6 +15,14 @@
 - setup sign out logic
 - update user data after sign up
 - if the user is not logged in redirect '/browse' route to login page or vice-versa.
+- refactoring hard coded values/strings
+- register add TMDB API, create your project in edit profile, get your API key
+- planning for broswe page
+- Get data of now playing movies from TMDB and store it inside movie slice in the store.
+- custom hook for now playing movies
+- get trailer of movies from API and store it in store
+- custom hook for trailer video data
+- browse page trailer section UI with trailer in the background and details
 
 # Features
 

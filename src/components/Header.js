@@ -11,7 +11,6 @@ const Header = () => {
   const dispatch = useDispatch();
 
   const user = useSelector((store) => store.user);
-  console.log(user);
   const handleSignOut = () => {
     signOut(auth)
       .then(() => {})
@@ -47,7 +46,6 @@ const Header = () => {
           >
             Sign Out
           </button>
-          <span className="flex text-sm">{user.Name}</span>
         </div>
       )}
     </div>
