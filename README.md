@@ -9,8 +9,12 @@
 - form validation
 - setup firebase
 - setup signin and signup firebase logic
+- deploy app onto firebase
 - setup redux store
 - createed slice for storing userInfo
+- setup sign out logic
+- update user data after sign up
+- if the user is not logged in redirect '/browse' route to login page or vice-versa.
 
 # Features
 
