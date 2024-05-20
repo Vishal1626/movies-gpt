@@ -23,6 +23,10 @@
 - get trailer of movies from API and store it in store
 - custom hook for trailer video data
 - browse page trailer section UI with trailer in the background and details
+- create secondary container in browse page
+- add multiple video list like (popular,toprated, new, upcoming)
+- make an TMDB api call to fetch the movie details and store them in the movie slice
+- show movie list/movie cards on the secondary container
 
 # Features
 

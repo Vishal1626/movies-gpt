@@ -34,8 +34,8 @@ const Header = () => {
     return () => unsubsribe();
   }, []);
   return (
-    <div className="absolute w-screen px-8 py-2 bg-gradient-to-b from-black z-10 flex justify-between">
-      <img className="w-52 ml-40" src={Logo} alt="headerlogo" />
+    <div className="absolute w-screen px-8 py-2 bg-gradient-to-b from-black z-10 flex justify-between no-scrollbar">
+      <img className="w-52 ml-10" src={Logo} alt="headerlogo" />
 
       {user && (
         <div className="mt-4">
