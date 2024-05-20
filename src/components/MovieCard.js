@@ -4,7 +4,6 @@ import { IMG_CDN } from "../utils/constants";
 const MovieCard = ({ movie }) => {
   const [isHovered, setIsHovered] = useState(false);
   const { title, overview, poster_path } = movie;
-  console.log(movie);
 
   const truncateString = () => {
     if (overview.length <= 180) {

@@ -5,12 +5,18 @@ import { useDispatch, useSelector } from "react-redux";
 import { addUser, removeUserData } from "../utils/userSlice";
 import { useEffect } from "react";
 import Logo from "../img/Netflix_Logo_PMS (2).png";
+import { toggleGptSearchBtn } from "../utils/gptSlice";
 
 const Header = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
+  const handleGptSearchClick = () => {
+    dispatch(toggleGptSearchBtn());
+  };
+
   const user = useSelector((store) => store.user);
+  const gptSearchBtn = useSelector((store) => store.gptSearch?.gptSearchToggle);
   const handleSignOut = () => {
     signOut(auth)
       .then(() => {})
@@ -39,6 +45,12 @@ const Header = () => {
 
       {user && (
         <div className="mt-4">
+          <button
+            className={`text-white  font-medium rounded-lg text-sm px-5 py-2.5 m-2 bg-purple-700 hover:bg-purple-800`}
+            onClick={handleGptSearchClick}
+          >
+            {!gptSearchBtn ? "GPT Search" : "Browse Movies"}
+          </button>
           <button
             type="button"
             className="text-white bg-red-700 hover:bg-red-800 font-medium rounded-lg text-sm px-5 py-2.5 mb-2 "

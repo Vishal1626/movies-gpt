@@ -2,7 +2,6 @@ import { ChevronRight } from "lucide-react";
 import MovieCard from "./MovieCard";
 
 const MoviesList = ({ title, movies }) => {
-  console.log(movies);
   return (
     <div className="px-6 text-white">
       <h1 className="text-3xl flex py-3">
