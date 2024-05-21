@@ -5,7 +5,7 @@ const VideoBackground = ({ movieId }) => {
   useMovieTrailer(movieId);
 
   const trailerVideo = useSelector((store) => store.movies?.movieTrailer);
-  if (trailerVideo === null && trailerVideo.key === null) return;
+  if (trailerVideo === null) return;
   return (
     <div>
       <iframe
