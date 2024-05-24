@@ -1,22 +1,78 @@
 import { Search } from "lucide-react";
+import { useRef } from "react";
+import { GoogleGenerativeAI } from "@google/generative-ai";
+import { API_OPTIONS, OPENAI_KEY } from "../utils/constants";
+import { useDispatch } from "react-redux";
+import { addGptMovies } from "../utils/gptSlice";
+import { toggleGptSearchStarted } from "../utils/gptSlice";
 
 const GptSearchBar = () => {
+  const dispatch = useDispatch();
+  const gptSearchText = useRef(null);
+
+  const genAI = new GoogleGenerativeAI(OPENAI_KEY);
+
+  const getMovies = async (movie) => {
+    const movieData = await fetch(
+      "https://api.themoviedb.org/3/search/movie?query=" + movie,
+      API_OPTIONS
+    );
+
+    const json = await movieData.json();
+    return json.results;
+  };
+
+  const handleGptSearchClick = async () => {
+    dispatch(toggleGptSearchStarted());
+
+    const searchQuery =
+      "Act as movie recommendation system and suggest movies for the query: " +
+      gptSearchText.current.value +
+      ". only give me names of 5 movies, comma separated like the given result ahead. Example Result: Avatar, Sholay, Bahubali, Singham, Once upon a time in mumbai";
+
+    const model = genAI.getGenerativeModel({ model: "gemini-pro" });
+    const result = await model.generateContent(searchQuery);
+    const response = await result.response;
+    const movies = response.text().split(",");
+
+    //getMovies("Hera Pheri");
+
+    const promiseResults = movies.map((movie) => getMovies(movie));
+
+    const tmdbApiResults = await Promise.all(promiseResults);
+    dispatch(
+      addGptMovies({
+        gptMovieSuggetion: movies,
+        tmdbMoviesResult: tmdbApiResults,
+      })
+    );
+
+    dispatch(toggleGptSearchStarted());
+  };
+
   return (
-    <div className="pt-[7%]  flex justify-center">
-      <form className="w-1/2 grid grid-cols-12">
-        <input
-          type="text"
-          placeholder="Search..."
-          className="px-4 py-3 border rounded-l-full focus:outline-none focus:ring focus:border-blue-300 col-span-10"
-          // className="border rounded-l-md focus:outline-none focus:ring focus:border-blue-300 col-span-9"
-          // className="bg-blue-500 text-white px-6 py-3 rounded-r-md hover:bg-blue-600 focus:outline-none focus:ring focus:border-blue-300 col-span-3"
-        />
-        <button className="flex px-4 py-3 items-center bg-blue-500 text-white rounded-r-full text-2xl hover:bg-blue-600 focus:outline-none focus:ring focus:border-blue-300 col-span-2">
-          <Search color="white" className="mr-2" strokeWidth={3} size={20} />
-          Search
-        </button>
-      </form>
-    </div>
+    <>
+      <div className="pt-[7%]  flex justify-center">
+        <form
+          className="w-1/2 grid grid-cols-12"
+          onSubmit={(e) => e.preventDefault()}
+        >
+          <input
+            ref={gptSearchText}
+            type="text"
+            placeholder="What would you like to watch today?"
+            className="px-4 py-3 border rounded-l-full focus:outline-none focus:ring focus:border-blue-300 col-span-10"
+          />
+          <button
+            onClick={handleGptSearchClick}
+            className="flex px-4 py-3 items-center bg-blue-500 text-white rounded-r-full text-2xl hover:bg-blue-600 focus:outline-none focus:ring focus:border-blue-300 col-span-2"
+          >
+            <Search color="white" className="mr-2" strokeWidth={3} size={20} />
+            Search
+          </button>
+        </form>
+      </div>
+    </>
   );
 };
 

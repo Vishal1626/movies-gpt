@@ -14,7 +14,6 @@ import { auth } from "../utils/firebase";
 import { useDispatch } from "react-redux";
 import { addUser } from "../utils/userSlice";
 import LOGIN_BG_IMAGE from "../img/signinbgimage.jpg";
-import { Loader } from "lucide-react";
 
 const Login = () => {
   const [isSignIn, setIsSignIn] = useState(true);

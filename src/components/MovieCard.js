@@ -5,6 +5,8 @@ const MovieCard = ({ movie }) => {
   const [isHovered, setIsHovered] = useState(false);
   const { title, overview, poster_path } = movie;
 
+  if (!poster_path) return;
+
   const truncateString = () => {
     if (overview.length <= 180) {
       return overview;
