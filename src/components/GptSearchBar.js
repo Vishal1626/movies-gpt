@@ -2,13 +2,15 @@ import { Search } from "lucide-react";
 import { useRef } from "react";
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import { API_OPTIONS, OPENAI_KEY } from "../utils/constants";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { addGptMovies } from "../utils/gptSlice";
 import { toggleGptSearchStarted } from "../utils/gptSlice";
 
 const GptSearchBar = () => {
   const dispatch = useDispatch();
   const gptSearchText = useRef(null);
+  const userName = useSelector((store) => store.user);
+  console.log(userName.Name);
 
   const genAI = new GoogleGenerativeAI(OPENAI_KEY);
 
@@ -60,7 +62,7 @@ const GptSearchBar = () => {
           <input
             ref={gptSearchText}
             type="text"
-            placeholder="What would you like to watch today?"
+            placeholder={userName.Name + " What would you like to watch today?"}
             className="px-2 py-2 ml-1  md:px-4 md:py-3 border rounded-l-full focus:outline-none focus:ring focus:border-blue-300 col-span-9 md:col-span-10"
           />
           <button

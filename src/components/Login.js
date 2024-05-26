@@ -170,7 +170,7 @@ const Login = () => {
           onClick={toggleignUp}
         >
           {isSignIn
-            ? "New to Netflix? Sign up now."
+            ? "New to MoviesGPT? Sign up now."
             : "Already have an account? Sign in."}
         </p>
       </form>

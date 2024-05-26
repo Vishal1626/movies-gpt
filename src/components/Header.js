@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { addUser, removeUserData } from "../utils/userSlice";
 import { useEffect } from "react";
-import Logo from "../img/Netflix_Logo_PMS (2).png";
+import Logo from "../img/moviesGptLogo-removebg-preview.png";
 import { toggleGptSearchBtn } from "../utils/gptSlice";
 
 const Header = () => {
