@@ -20,7 +20,7 @@ const MovieCard = ({ movie }) => {
   return (
     <>
       <div
-        className="w-48 mr-2 relative overflow-hidden"
+        className=" w-24 md:w-48 mr-2 relative overflow-hidden"
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
       >

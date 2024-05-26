@@ -40,20 +40,20 @@ const Header = () => {
     return () => unsubsribe();
   }, []);
   return (
-    <div className="absolute w-screen px-8 py-2 bg-gradient-to-b from-black z-10 flex justify-between no-scrollbar">
-      <img className="w-52 ml-10" src={Logo} alt="headerlogo" />
+    <div className="absolute w-screen px-6 py-2 md:px-8 md:py-2 bg-gradient-to-b from-black z-10 flex flex-col md:flex-row justify-between no-scrollbar">
+      <img className="  md:w-52 pr-4" src={Logo} alt="headerlogo" />
 
       {user && (
-        <div className="mt-4">
+        <div className="-mt-3 pl-5 md:mt-4 mx-8 md:mx-0">
           <button
-            className={`text-white  font-medium rounded-lg text-sm px-5 py-2.5 m-2 bg-purple-700 hover:bg-purple-800`}
+            className={`text-white  font-medium rounded-lg text-sm px-4 py-2 m-1 md:px-5 md:py-2.5 md:m-2 bg-purple-700 hover:bg-purple-800`}
             onClick={handleGptSearchClick}
           >
-            {!gptSearchBtn ? "GPT Search" : "Browse Movies"}
+            {!gptSearchBtn ? "GPT Search" : "Movies"}
           </button>
           <button
             type="button"
-            className="text-white bg-red-700 hover:bg-red-800 font-medium rounded-lg text-sm px-5 py-2.5 mb-2 "
+            className="text-white bg-red-700 hover:bg-red-800 font-medium rounded-lg text-sm  px-4 py-2 m-1 md:px-5 md:py-2.5 md:mb-2 "
             onClick={handleSignOut}
           >
             Sign Out

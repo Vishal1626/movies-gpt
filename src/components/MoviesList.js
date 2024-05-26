@@ -3,11 +3,11 @@ import MovieCard from "./MovieCard";
 
 const MoviesList = ({ title, movies }) => {
   return (
-    <div className="px-6 text-white">
-      <h1 className="text-3xl flex py-3">
+    <div className="md:px-6 text-white">
+      <h1 className=" text-lg md:text-3xl flex md:py-3">
         {title}{" "}
         <ChevronRight
-          className="mt-2"
+          className="md:mt-2"
           color="white"
           strokeWidth={3}
           size={30}

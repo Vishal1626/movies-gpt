@@ -18,7 +18,7 @@ const GptMovieSuggetions = () => {
     return searchBtnClicked ? (
       <ShimmerUI />
     ) : (
-      <div className="p-8 m-16 rounded-lg bg-black bg-opacity-90">
+      <div className="p-2 md:p-8 m-8 md:m-16 rounded-lg bg-black bg-opacity-90">
         {gptMovies.map((movieName, index) => (
           <MoviesList
             key={movieName}

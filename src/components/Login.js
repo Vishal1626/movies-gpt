@@ -29,21 +29,22 @@ const Login = () => {
 
   const handleFormSubmit = () => {
     const signInButton = document.getElementById("signInButton");
-    signInButton.innerHTML = isSignIn ? `Signing In...` : `Signing Up...`;
-    signInButton.disabled = true;
     if (!isSignIn) {
       const nameValidationRes = validateName(name.current.value);
       setNameErrorMsg(nameValidationRes);
       if (nameValidationRes) return;
-
-      const emailValidationRes = validateEmail(email.current.value);
-      setEmailErrorMsg(emailValidationRes);
-      if (emailValidationRes) return;
-
-      const passValidationRes = validatePassword(password.current.value);
-      setPasswordErrorMsg(passValidationRes);
-      if (passValidationRes) return;
     }
+
+    const emailValidationRes = validateEmail(email.current.value);
+    setEmailErrorMsg(emailValidationRes);
+    if (emailValidationRes) return;
+
+    const passValidationRes = validatePassword(password.current.value);
+    setPasswordErrorMsg(passValidationRes);
+    if (passValidationRes) return;
+
+    signInButton.innerHTML = "Sign In" ? `Signing In...` : `Signing Up...`;
+    signInButton.disabled = true;
 
     if (!isSignIn) {
       //sign UP new the user
@@ -109,13 +110,17 @@ const Login = () => {
     <div>
       <Header />
       <div className="absolute">
-        <img className="h-screen w-screen" src={LOGIN_BG_IMAGE} alt="loginbg" />
+        <img
+          className="h-screen w-screen object-cover"
+          src={LOGIN_BG_IMAGE}
+          alt="loginbg"
+        />
       </div>
       <form
         onSubmit={(e) => e.preventDefault()}
-        className="absolute p-8 bg-black text-white rounded-lg bg-opacity-80 w-1/4 m-60 mx-auto right-0 left-0 "
+        className="absolute md:p-8 bg-black text-white rounded-lg bg-opacity-80 md:w-1/4 w-[80%] m-60 p-4 mx-auto right-0 left-0 "
       >
-        <h1 className="text-4xl pb-4 font-semibold">
+        <h1 className="md:text-4xl md:pb-4 font-semibold text-lg ">
           {isSignIn ? "Sign In" : "Sign Up"}
         </h1>
         {!isSignIn && (
@@ -123,35 +128,47 @@ const Login = () => {
             ref={name}
             type="text"
             placeholder="Enter Full Name"
-            className="p-2 mt-4 w-full bg-gray-800 rounded-md"
+            className="md:p-2 md:mt-4 p-1 mt-2 w-full bg-gray-800 rounded-md"
           ></input>
         )}
-        <p className="text-red-500 font-normal">{nameErrorMsg}</p>
+        <p className="text-red-500 md:font-normal md:text-lg  text-sm">
+          {nameErrorMsg}
+        </p>
 
         <input
           ref={email}
           type="email"
           placeholder="Enter Email"
-          className="p-2 mt-4 w-full  bg-gray-800 rounded-md"
+          className="md:p-2 md:mt-4 p-1 mt-2 w-full  bg-gray-800 rounded-md"
         ></input>
-        <p className="text-red-500 font-normal">{emailErrorMsg}</p>
+        <p className="text-red-500 md:text-lg text-sm md:font-normal  ">
+          {emailErrorMsg}
+        </p>
         <input
           ref={password}
           type="password"
           placeholder="Password"
-          className="p-2 mt-4 w-full  bg-gray-800 rounded-md"
+          className="md:p-2 md:mt-4 p-1 mt-2 w-full  bg-gray-800 rounded-md"
         ></input>
-        <p className="text-red-500 font-normal">{passwordErrorMsg}</p>
-        <p className="text-red-500 mt-4 font-normal"> {signInErrorMsg}</p>
+        <p className="text-red-500 md:font-normal md:text-lg  text-sm">
+          {passwordErrorMsg}
+        </p>
+        <p className="text-red-500 mt-4 md:font-normal md:text-lg  text-sm">
+          {" "}
+          {signInErrorMsg}
+        </p>
         <button
           id="signInButton"
-          className=" p-2 mb-4 w-full  text-white bg-red-700 hover:bg-red-900  rounded-lg "
+          className=" md:p-2 md:mb-4 p-1 mb-2 w-full  text-white bg-red-700 hover:bg-red-900  rounded-lg "
           onClick={handleFormSubmit}
         >
           {isSignIn ? "Sign In" : "Sign Up"}
         </button>
 
-        <p className="cursor-pointer py-2" onClick={toggleignUp}>
+        <p
+          className="cursor-pointer md:py-2 py-1 md:text-lg text-sm"
+          onClick={toggleignUp}
+        >
           {isSignIn
             ? "New to Netflix? Sign up now."
             : "Already have an account? Sign in."}
