@@ -1,22 +1,35 @@
+import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import VideoTitle from "./VideoTitle";
 import VideoBackground from "./VideoBackground";
 
 const MainContainer = () => {
   const MovieData = useSelector((store) => store.movies?.nowPlayingMovies);
-  if (MovieData === null) return;
+  const [randomIndex, setRandomIndex] = useState(0);
 
-  const generateRandomNum = (min, max) => {
-    return Math.floor(Math.random() * (max - min) + min);
+  // 🔹 Ensure MovieData is available before setting index
+  useEffect(() => {
+    if (MovieData && MovieData.length > 0) {
+      setRandomIndex(Math.floor(Math.random() * MovieData.length));
+    }
+  }, [MovieData]); // Runs when MovieData changes
+
+  // 🔹 If MovieData is still null, return loading
+  if (!MovieData || MovieData.length === 0) {
+    return <div className="text-center text-white">Loading movies...</div>;
+  }
+
+  // 🔹 Function to pick a new random movie when retrying
+  const retryMovie = () => {
+    setRandomIndex(Math.floor(Math.random() * MovieData.length));
   };
 
-  const movieNumber = generateRandomNum(0, MovieData.length);
+  const { original_title, overview, id } = MovieData[randomIndex];
 
-  const { original_title, overview, id } = MovieData[movieNumber];
   return (
-    <div className="">
+    <div>
       <VideoTitle title={original_title} overview={overview} />
-      <VideoBackground movieId={id} />
+      <VideoBackground movieId={id} retryMovie={retryMovie} />
     </div>
   );
 };
