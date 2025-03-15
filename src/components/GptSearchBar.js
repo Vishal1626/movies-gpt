@@ -32,7 +32,7 @@ const GptSearchBar = () => {
       gptSearchText.current.value +
       ". only give me names of 5 movies, comma separated like the given result ahead. Example Result: Avatar, Sholay, Bahubali, Singham, Once upon a time in mumbai";
 
-    const model = genAI.getGenerativeModel({ model: "gemini-pro" });
+    const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
     const result = await model.generateContent(searchQuery);
     const response = await result.response;
     const movies = response.text().split(",");
