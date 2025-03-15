@@ -5,31 +5,35 @@ import VideoBackground from "./VideoBackground";
 
 const MainContainer = () => {
   const MovieData = useSelector((store) => store.movies?.nowPlayingMovies);
-  const [randomIndex, setRandomIndex] = useState(0);
+  const [selectedMovie, setSelectedMovie] = useState(null);
 
-  // 🔹 Ensure MovieData is available before setting index
+  // Pick a random movie when MovieData first loads or when retrying
   useEffect(() => {
     if (MovieData && MovieData.length > 0) {
-      setRandomIndex(Math.floor(Math.random() * MovieData.length));
+      const randomIndex = Math.floor(Math.random() * MovieData.length);
+      setSelectedMovie(MovieData[randomIndex]);
     }
-  }, [MovieData]); // Runs when MovieData changes
+  }, [MovieData]); // ✅ No extra function needed
 
-  // 🔹 If MovieData is still null, return loading
-  if (!MovieData || MovieData.length === 0) {
+  // Retry button handler
+  const retryMovie = () => {
+    if (MovieData && MovieData.length > 0) {
+      const randomIndex = Math.floor(Math.random() * MovieData.length);
+      setSelectedMovie(MovieData[randomIndex]);
+    }
+  };
+
+  if (!selectedMovie) {
     return <div className="text-center text-white">Loading movies...</div>;
   }
 
-  // 🔹 Function to pick a new random movie when retrying
-  const retryMovie = () => {
-    setRandomIndex(Math.floor(Math.random() * MovieData.length));
-  };
-
-  const { original_title, overview, id } = MovieData[randomIndex];
-
   return (
     <div>
-      <VideoTitle title={original_title} overview={overview} />
-      <VideoBackground movieId={id} retryMovie={retryMovie} />
+      <VideoTitle
+        title={selectedMovie.original_title}
+        overview={selectedMovie.overview}
+      />
+      <VideoBackground movieId={selectedMovie.id} retryMovie={retryMovie} />
     </div>
   );
 };
